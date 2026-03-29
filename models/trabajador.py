@@ -4,7 +4,7 @@ class Trabajador:
         self.__jefe_inmediato = jefe_inmediato
         self.__estado = estado  # Activo, TC, D, R
 
-    # Getters y Setters obligatorios por la tarea
+    # Getters y Setters obligatorios
     def get_nombre(self): return self.__nombre_completo
     def set_nombre(self, valor): self.__nombre_completo = valor
 
