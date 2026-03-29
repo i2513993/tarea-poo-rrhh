@@ -1,28 +1,27 @@
 from models.trabajador import Gerente, JefeArea, Tecnico, Asistente
 
 def validar_y_crear(nombre, puesto, jefe, exp, nomina):
-    # Validación básica
-    if nombre == "": 
-        raise ValueError("El nombre es obligatorio")
+    # 1. Validar nombre
+    if not nombre:
+        raise ValueError("El nombre no puede estar vacío")
     
-    # Filtrar subordinados para aplicar reglas de negocio
+    # 2. Lógica de negocio: Contar subordinados
     subordinados = [t for t in nomina if t.get_jefe() == jefe]
-    asistentes = [s for s in subordinados if isinstance(s, Asistente)]
-    tecnicos = [s for s in subordinados if isinstance(s, Tecnico)]
-
-    # Reglas de la historia de usuario
-    if puesto == "Asistente" and len(asistentes) >= 2:
-        raise ValueError(f"El jefe {jefe} ya tiene el máximo de 2 asistentes.")
     
-    if puesto == "Técnico" and len(tecnicos) >= 5:
-        raise ValueError(f"El jefe {jefe} ya tiene el máximo de 5 técnicos.")
-
-    # Instanciación según el puesto (POO)
-    if puesto == "Gerente": 
-        return Gerente(nombre)
-    elif puesto == "Jefe de Área": 
-        return JefeArea(nombre, jefe)
-    elif puesto == "Asistente": 
+    if puesto == "Asistente":
+        asistentes = [s for s in subordinados if isinstance(s, Asistente)]
+        if len(asistentes) >= 2:
+            raise ValueError(f"El jefe {jefe} ya tiene 2 asistentes.")
         return Asistente(nombre, jefe)
-    elif puesto == "Técnico": 
+
+    if puesto == "Técnico":
+        tecnicos = [s for s in subordinados if isinstance(s, Tecnico)]
+        if len(tecnicos) >= 5:
+            raise ValueError(f"El jefe {jefe} ya tiene 5 técnicos.")
         return Tecnico(nombre, jefe, exp)
+
+    if puesto == "Gerente":
+        return Gerente(nombre)
+        
+    if puesto == "Jefe de Área":
+        return JefeArea(nombre, jefe)
