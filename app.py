@@ -5,7 +5,7 @@ import os
 from services.rrhh_service import validar_y_crear
 from models.trabajador import Gerente, JefeArea, Tecnico, Asistente
 
-st.set_page_config(page_title="Business Corporation - RRHH", page_icon="🏢", layout="wide")
+st.set_page_config(page_title="Instituto Continental - RRHH", page_icon="🏢", layout="wide")
 st.title("Instituto Continental - RRHH")
 
 ARCHIVO_NOMINA = "data/nomina.json"
