@@ -70,10 +70,18 @@ with col1:
     puesto = st.selectbox("Puesto", ["Gerente", "Jefe de Área", "Asistente", "Técnico"])
 
 with col2:
-    # Llenamos la lista de posibles jefes con los nombres de quienes ya están en la nómina
     nombres_jefes = [t.get_nombre() for t in st.session_state.nomina]
-    jefe = st.selectbox("Jefe Inmediato", ["Ninguno"] + nombres_jefes)
-    exp  = st.number_input("Años de Experiencia (solo Técnicos)", min_value=0)
+
+    # Si el puesto elegido es Gerente, el jefe queda fijo en "Ninguno"
+    # Para cualquier otro puesto, debe elegir un jefe de la lista
+    if puesto == "Gerente":
+        jefe = "Ninguno"
+        st.selectbox("Jefe Inmediato", ["Ninguno"], disabled=True)
+    else:
+        # No incluimos "Ninguno" como opción para forzar que elijan un jefe real
+        jefe = st.selectbox("Jefe Inmediato", nombres_jefes if nombres_jefes else ["Sin trabajadores aún"])
+
+    exp = st.number_input("Años de Experiencia (solo Técnicos)", min_value=0)
 
 # Cuando el usuario hace clic en el botón, intentamos crear el trabajador
 if st.button("Registrar en Nómina"):
