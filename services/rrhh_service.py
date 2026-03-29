@@ -1,33 +1,23 @@
 from models.trabajador import Gerente, JefeArea, Tecnico, Asistente
 
-def obtener_nomina():
-    # 1. Creamos al Gerente
-    gerente = Gerente("Ing. Alberto Castro")
+def validar_y_crear(nombre, puesto, jefe, exp, nomina):
+    # Validación básica
+    if nombre == "": raise ValueError("El nombre es obligatorio")
+    
+    # Contar subordinados actuales para ese jefe
+    subordinados = [t for t in nomina if t.get_jefe() == jefe]
+    asistentes = [s for s in subordinados if isinstance(s, Asistente)]
+    tecnicos = [s for s in subordinados if isinstance(s, Tecnico)]
 
-    # 2. Creamos 5 Jefes de Área
-    jefes = [
-        JefeArea("Ana Luna", "Marketing", gerente.get_nombre()),
-        JefeArea("Luis Torres", "Sistemas", gerente.get_nombre()),
-        JefeArea("Marta Rivas", "Producción", gerente.get_nombre()),
-        JefeArea("Pedro Sánchez", "Logística", gerente.get_nombre()),
-        JefeArea("Sofía Vega", "RRHH", gerente.get_nombre())
-    ]
+    # Aplicar reglas de la historia de usuario
+    if puesto == "Asistente" and len(asistentes) >= 2:
+        raise ValueError(f"El jefe {jefe} ya tiene el máximo de 2 asistentes.")
+    
+    if puesto == "Técnico" and len(tecnicos) >= 5:
+        raise ValueError(f"El jefe {jefe} ya tiene el máximo de 5 técnicos.")
 
-    # 3. Creamos Asistentes (ejemplo para Sistemas y Marketing)
-    asistentes = [
-        Asistente("Juan Pérez", "Luis Torres"),
-        Asistente("María Jara", "Luis Torres"),
-        Asistente("Katy Soto", "Ana Luna")
-    ]
-
-    # 4. Creamos Técnicos (ejemplo 5 técnicos)
-    tecnicos = [
-        Tecnico("Roberto Gómez", "Luis Torres", 5),
-        Tecnico("Lucía Fernández", "Marta Rivas", 3),
-        Tecnico("Kevin Arrieta", "Pedro Sánchez", 10),
-        Tecnico("Julia Quispe", "Luis Torres", 2),
-        Tecnico("Marcos Paz", "Marta Rivas", 4)
-    ]
-
-    # Retornamos el Array de Objetos completo
-    return [gerente] + jefes + asistentes + tecnicos
+    # Crear el objeto según el puesto
+    if puesto == "Gerente": return Gerente(nombre)
+    if puesto == "Jefe de Área": return JefeArea(nombre, jefe)
+    if puesto == "Asistente": return Asistente(nombre, jefe)
+    if puesto == "Técnico": return Tecnico(nombre, jefe, exp)
