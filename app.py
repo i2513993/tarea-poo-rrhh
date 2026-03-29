@@ -148,7 +148,7 @@ if st.button("Registrar en Nómina"):
 
 
 # --- TABLA ---
-st.write("### 📊 Nómina Actual (Array de Objetos)")
+st.write("###  Nómina Actual (Array de Objetos)")
 
 tabla_data = []
 for trabajador in st.session_state.nomina:
