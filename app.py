@@ -5,7 +5,7 @@ import os
 from services.rrhh_service import validar_y_crear
 from models.trabajador import Gerente, JefeArea, Tecnico, Asistente
 
-st.title("🏢 Business Corporation - RRHH")
+st.title("Instituto Continental  - RRHH")
 
 # Ruta donde se guarda la nómina como archivo
 ARCHIVO_NOMINA = "data/nomina.json"
