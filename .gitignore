@@ -1,1 +1,4 @@
-venv_poo_rrhh
+venv_poo_rrhh/
+__pycache__/
+*.pyc
+.env 
